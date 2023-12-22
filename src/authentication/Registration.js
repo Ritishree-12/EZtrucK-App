@@ -13,16 +13,16 @@ import {
 // import { CheckBox } from "react-native-elements";
 
 // Assuming the SPACING object is defined in the "../authentication/style" module
-// import { COLORS, FONTS, SPACING } from "../authentication/style";
+import { COLORS, FONTS, SPACING } from "../authentication/style";
 
 const commonInputStyle = {
   height: 60,
-  // marginVertical: SPACING.MARGIN_VERTICAL,
+  marginVertical: SPACING.MARGIN_VERTICAL,
   borderWidth: 1,
-  // paddingHorizontal: SPACING.PADDING_HORIZONTAL,
+  paddingHorizontal: SPACING.PADDING_HORIZONTAL,
   borderRadius: 30,
-  // borderColor: COLORS.BORDER,
-  // color: COLORS.TEXT,
+  borderColor: COLORS.BORDER,
+  color: COLORS.TEXT,
 };
 
 const Registration = ({navigation}) => {
@@ -191,17 +191,16 @@ const Registration = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal: SPACING.PADDING_HORIZONTAL,
-    // backgroundColor: COLORS.BACKGROUND,
+  
   },
-  // title: FONTS.TITLE,
-  // terms: FONTS.TERMS,
-  // termsHighlight: FONTS.TERMS_HIGHLIGHT,
+  title: FONTS.TITLE,
+  terms: FONTS.TERMS,
+  termsHighlight: FONTS.TERMS_HIGHLIGHT,
   input: commonInputStyle,
   signupButton: {
     ...commonInputStyle,
     height: 60,
-    // backgroundColor: COLORS.PRIMARY,
+    backgroundColor: COLORS.PRIMARY,
     borderColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
