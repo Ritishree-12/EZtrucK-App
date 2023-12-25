@@ -169,10 +169,10 @@ const Registration = ({navigation}) => {
           <View style={styles.horizontalLine} />
         </View>
         <TouchableOpacity style={styles.googleButton}>
-          {/* <Image
+          <Image
             source={require("../../assets/google-icon.png")}
             style={styles.googleImage}
-          /> */}
+          /> 
           <Text style={styles.googleText}>Google</Text>
         </TouchableOpacity>
         <Text style={styles.signInText}>

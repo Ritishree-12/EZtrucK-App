@@ -11,10 +11,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import BottomSheet from "@gorhom/bottom-sheet";
 import ItemComponent from "./ItemComponent";
 import SearchResults from "../destinationsearch/SearchResult";
+import RouteMap from "../../map/Routemap";
 
 
 const ChooseVehicle = ({navigation}) => {
-  const snapPoints = useMemo(() => ["50%"], []);
+  const snapPoints = useMemo(() => ["60%"], []);
 
   const DATA = [
     {
@@ -67,7 +68,8 @@ const ChooseVehicle = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-    <SearchResults/>  
+    {/* <SearchResults/>   */}
+    <RouteMap />
       <BottomSheet
         //  index={1}
         snapPoints={snapPoints}

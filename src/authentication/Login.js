@@ -47,6 +47,7 @@ const Login = () => {
       <Text style={styles.title}>Login with OTP</Text>
       <View style={styles.formContainer}>
         <TextInput
+        style={styles.input}
           onChangeText={(value) => {
             if (value.length === 10) {
               setNumberInput(true);
@@ -57,7 +58,7 @@ const Login = () => {
           }}
           placeholder="Enter your phone number"
           keyboardType="numeric"
-          style={styles.input}
+          
         />
         <Button
           onPress={() => {
@@ -125,7 +126,8 @@ const styles = {
     paddingHorizontal: 16,
     borderRadius: 30,
     borderColor: "grey",
-    color: "grey",
+    color: Platform.OS === "ios" ? "black" : "gray",
+    // placeholderTextColor: "gray",
   },
   inputError: {
     borderColor: "red", // Change border color for error state
