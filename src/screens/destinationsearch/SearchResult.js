@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import {View, Dimensions, Alert} from 'react-native';
+import { View, Dimensions, Alert } from 'react-native';
 // import { API, graphqlOperation, Auth } from 'aws-amplify';
 import RouteMap from "../../map/Routemap";
-// import UberTypes from "../../components/UberTypes";
 // import { createOrder } from '../../graphql/mutations';
 
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useRoute} from '@react-navigation/native';
+import TruckTypes from '../trucktypes/TruckTypes';
 // import ChooseVehicle from '../home/ChooseVehicle';
 
-const SearchResults = (props) => {
+const SearchResult = (props) => {
   const typeState = useState(null);
 
   const route = useRoute();
-  const navigation = useNavigation();
-
-  // const {originPlace, destinationPlace} = route.params
+  
+  console.log(route.params,'details')
+  const { originPlace, destinationPlace } = route.params
 
   const onSubmit = async () => {
     const [type] = typeState;
@@ -58,20 +58,25 @@ const SearchResults = (props) => {
   }
 
   return (
+    // <View style={{ flex: 1 }}>
+    //   <ChooseVehicle
+    //     origin={originPlace}
+    //     destination={destinationPlace}
+    //   />
+    // </View>
     <View style={{display: 'flex', justifyContent: 'space-between'}}>
       <View style={{height: Dimensions.get('window').height - 400}}>
         <RouteMap 
-        // origin={originPlace}
-        //  destination={destinationPlace} 
+        origin={originPlace}
+         destination={destinationPlace} 
          />
       </View>
 
-      {/* <View style={{height: 400}}> */}
-        {/* <ChooseVehicle  onSubmit={onSubmit}/> */}
-        {/* <UberTypes typeState={typeState} onSubmit={onSubmit} /> */}
-      {/* </View> */}
+      <View style={{height: 400}}>
+        <TruckTypes typeState={typeState} onSubmit={onSubmit} />
+      </View>
     </View>
   );
 };
 
-export default SearchResults;
+export default SearchResult;

@@ -9,12 +9,12 @@ const HomeMap = (props) => {
 
   const getImage = (type) => {
     if (type === 'UberX') {
-      return require('../../assets/choose1.png');
+      return require('../../assets/top-Comfort.png');
     }
     if (type === 'Comfort') {
-      return require('../../assets/choose2.png');
+      return require('../../assets/top-UberX.png');
     }
-    return require('../../assets/choose3.png');
+    return require('../../assets/top-UberXL.png');
   };
 
   return (

@@ -3,9 +3,11 @@ import { StyleSheet, View, Text, ScrollView, Dimensions, Pressable } from "react
 import BottomSheet from "@gorhom/bottom-sheet";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeMap from "../../map/HomeMap";
+import { useNavigation } from "@react-navigation/native";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = (props) => {
   const snapPoints = useMemo(() => ["50%"], []);
+  const navigation=useNavigation()
   const goToSearch = () => {
     navigation.navigate('DestinationSearch')
   }
@@ -26,11 +28,11 @@ const HomeScreen = ({ navigation }) => {
 
           <View style={styles.locationContainer}>
             <Pressable style={styles.locationButton} onPress={goToSearch}>
-              <Icon name="location-arrow" size={20} color="green" />
+              <Icon name="circle" size={20} color="green" />
               <Text style={styles.locationText}>From</Text>
             </Pressable>
             <Pressable style={styles.locationButton} onPress={goToSearch}>
-              <Icon name="location-arrow" size={20} color="#3498db" />
+              <Icon name="location-arrow" size={20} color="red" />
               <Text style={styles.locationText}>To</Text>
             </Pressable>
           </View>

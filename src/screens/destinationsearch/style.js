@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
 
   circle: {
-    width: 5,
+    width: 20,
     height: 5,
     backgroundColor: 'black',
     position: 'absolute',

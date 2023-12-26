@@ -23,7 +23,8 @@ const DestinationSearch = (props) => {
 
   const checkNavigation = () => {
     if (originPlace && destinationPlace) {
-      navigation.navigate('SearchResults', {
+      // console.warn(data:'redirect to result')
+      navigation.navigate('SearchResult', {
         originPlace,
         destinationPlace,
       })
@@ -46,7 +47,7 @@ const DestinationSearch = (props) => {
           enablePoweredByContainer={false}
           suppressDefaultStyles
           currentLocation={true}
-          currentLocationLabel='Current location'
+          currentLocationLabel='Your Current Location'
           styles={{
             textInput: styles.textInput,
             container: styles.autocompleteContainer,
@@ -110,10 +111,14 @@ const styles = StyleSheet.create({
       backgroundColor: '#eee',
       marginVertical: 5,
       marginLeft: 20,
+      borderColor:'red',
+      borderRadius:40,
+      borderWidth: 1,
+      color:'black'
     },
   
     separator: {
-      backgroundColor: '#efefef',
+      backgroundColor: 'grey',
       height: 1,
     },
     listView: {
@@ -143,29 +148,29 @@ const styles = StyleSheet.create({
     },
   
     circle: {
-      width: 10,
-      height: 10,
+      width: 20,
+      height: 20,
       backgroundColor: 'red',
       position: 'absolute',
       top: 20,
-      left: 15,
-      borderRadius: 5,
+      left: 8,
+      borderRadius: 20,
     },
     line: {
-      width: 1,
-      height: 50,
+      width: 2,
+      height: 40,
       backgroundColor: '#c4c4c4',
       position: 'absolute',
-      top: 28,
-      left: 17,
+      top: 39,
+      left: 18,
     },
     square: {
-      width: 10,
-      height: 10,
+      width: 16,
+      height: 16,
       backgroundColor: 'green',
       position: 'absolute',
       top: 80,
-      left: 15,
+      left: 8,
     },
   });
 

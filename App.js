@@ -1,20 +1,20 @@
+
+// import { GestureHandlerRootView } from 'react-native-gesture-handler';
 // import React from 'react';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
 // import { StatusBar } from 'react-native';
-// import Sidebar from './src/sidebar/Sidebar'
-
-// // import ChooseVehicle from './src/screens/home/ChooseVehicle';
+// import  Router  from './src/sidebar/Sidebar';
 
 
-// const Stack = createStackNavigator();
+//  const Stack = createStackNavigator();
 
 // function App() {
 //   return (
-//     <>
+//     <GestureHandlerRootView>
 //       <StatusBar />
-//       <Sidebar />
-//     </>
+//       <Router/>
+//     </GestureHandlerRootView>
+      
+  
 //   );
 // }
 
@@ -25,7 +25,6 @@ import React ,{useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {StatusBar, PermissionsAndroid, Platform} from 'react-native';
-
 import Registration from './src/authentication/Registration';
 import Login from './src/authentication/Login';
 import OtpScreen from './src/authentication/OtpScreen';
@@ -35,8 +34,12 @@ import Welcome from './src/screens/welcome/Welcome';
 import Splash from './src/screens/splash/Splash';
 import HomeScreen from './src/screens/home/HomeScreen';
 import DestinationSearch from './src/screens/destinationsearch/DestinationSearch';
-import Geolocation from '@react-native-community/geolocation';
 import ChooseVehicle from './src/screens/home/ChooseVehicle';
+import SearchResults from './src/screens/destinationsearch/SearchResult';
+import Geolocation from '@react-native-community/geolocation';
+import TruckTypes from './src/screens/trucktypes/TruckTypes';
+import TruckRow from './src/screens/trucktypes/TruckRow';
+
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -50,9 +53,9 @@ function App() {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          title: "Uber App Camera Permission",
+          title: "ezTruck App Camera Permission",
           message:
-            "Uber App needs access to your location " +
+            "ezTruck App needs access to your location " +
             "so you can take awesome rides.",
           buttonNeutral: "Ask Me Later",
           buttonNegative: "Cancel",
@@ -79,6 +82,8 @@ function App() {
   }, [])
 
   return (
+    <>
+    <StatusBar barStyle="dark-content" backgroundColor="white" />
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Splash">
       <Stack.Screen
@@ -126,9 +131,24 @@ function App() {
           component={DestinationSearch}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="ChooseVehicle"
           component={ChooseVehicle}
+          options={{ headerShown: false }}
+        /> */}
+        <Stack.Screen
+          name="TruckTypes"
+          component={TruckTypes}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TruckRow"
+          component={TruckRow}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="SearchResult"
+          component={SearchResults}
           options={{ headerShown: false }}
         />
          {/* <Stack.Screen
@@ -139,6 +159,7 @@ function App() {
        
       </Stack.Navigator>
     </NavigationContainer>
+    </>
   );
 }
 
