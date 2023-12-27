@@ -1,41 +1,3 @@
-// import React from "react";
-// import { View, Text, Pressable,StyleSheet } from "react-native";
-// import TruckRow from './TruckRow';
-
-// import typesData from '../../data/type';
-
-// const TruckTypes = ({ typeState, onSubmit }) => {
-//   const [selectedType, setSelectedType] = typeState;
-
-//   return (
-//     <View>
-//       {typesData.map((type) => (
-//         <TruckRow
-//           type={type}
-//           key={type.id}
-//           isSelected={type.type === selectedType}
-//           onPress={() => setSelectedType(type.type)}
-//         />
-//       ))}
-
-//       <Pressable onPress={onSubmit} style={{
-//         backgroundColor: 'red',
-//         borderRadius:20,
-//         padding: 10,
-//         margin: 10,
-//         alignItems: 'center',
-//         borderWidth:1,
-//       }}>
-//         <Text style={{color: 'white', fontWeight: 'bold'}}>
-//           Book Now
-//         </Text>
-//       </Pressable>
-//     </View>
-//   );
-// };
-
-// export default TruckTypes;
-
 import React from "react";
 import { View, Text, Pressable,StyleSheet } from "react-native";
 import TruckRow from './TruckRow';
@@ -48,23 +10,22 @@ const TruckTypes = ({ typeState, onSubmit }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text1}>Choose a Vehicle</Text>
-      {typesData.map((type) => (
+      {/* {typesData.map((type) => (
         <TruckRow
           type={type}
           key={type.id}
           isSelected={type.type === selectedType}
           onPress={() => setSelectedType(type.type)}
         />
-      ))}
+      ))} */}
 
       <Pressable onPress={onSubmit} style={{
-       backgroundColor: "#EE272E",
-       borderColor: "#EE272E",
-       borderRadius: 40,
-       padding: 20,
-       margin: 10,  // Check this margin
-       alignItems: 'center',
-       borderWidth: 1,
+        backgroundColor: 'red',
+        borderRadius:40,
+        padding: 20,
+        margin: 10,
+        alignItems: 'center',
+        borderWidth:1,
       }}>
         <Text style={{color: 'white', fontWeight: 'bold'}}>
           Book Now
@@ -77,8 +38,7 @@ const TruckTypes = ({ typeState, onSubmit }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:10
-    // padding:8,
+    padding:10,
   },
   map: {
     flex: 1,
@@ -105,7 +65,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 8,
     width: 340,
-    borderColor:"#EE272E",
   },
   BookNowText: {
     color: "white",
@@ -116,4 +75,3 @@ const styles = StyleSheet.create({
 
 
 export default TruckTypes;
-
