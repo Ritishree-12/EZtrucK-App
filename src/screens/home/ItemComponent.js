@@ -16,12 +16,45 @@ const ItemComponent = ({ item, onPress, backgroundColor, textColor }) => {
   const ratePerKm = 0.5;
   const ratePerMinute = 0.2;
   const waitingCharges = 5;
-  const calculateTotalAmount = () => {  // Function to calculate the total amount
-    const distanceCharge = item.distance * ratePerKm;
-    const timeCharge = item.time * ratePerMinute;
-    const totalAmount = baseFare + distanceCharge + timeCharge + waitingCharges;
-    return totalAmount.toFixed(2); // Round to 2 decimal places
-  };
+  const calculateTotalPrice = (distanceInKm, truckType) => {
+    let baseCostPerKm, baseCostPerKm2;
+    switch (truckType) {
+      case 'dalaauto':
+        baseCostPerKm = 18;
+        baseCostPerKm2 = 19;
+        break;
+      case 'tataace':
+        baseCostPerKm = 22;
+        baseCostPerKm2 = 23;
+        break;
+      case 'small_pickup':
+        baseCostPerKm = 28;
+        baseCostPerKm2 = 29;
+        break;
+      case 'large_pickup':
+        baseCostPerKm = 30;
+        baseCostPerKm2 = 31;
+        break;
+      case 'eicher':
+        baseCostPerKm = 41;
+        baseCostPerKm2 = 42;
+        break;
+      default:
+        throw new Error('Invalid truck type');
+    }
+    const totalCost = distanceInKm <= 30 ? baseCostPerKm * distanceInKm : baseCostPerKm2 * distanceInKm;
+    // Calculate the commission (15%)
+    const commissionAmount = (totalCost * 15) / 100;
+    const costAfterCommission = totalCost + commissionAmount;
+    // Calculate the GST (5%)
+    const gstAmount = (costAfterCommission * 5) / 100;
+    const costAfterGst = costAfterCommission + gstAmount;
+    // Calculate the TDS (2%)
+    const tdsAmount = (costAfterGst * 2) / 100;
+    const finalPrice = costAfterGst + tdsAmount;
+    console.log(finalPrice)
+    return finalPrice;
+  }
   return (
     <View>
       <TouchableOpacity 
@@ -29,13 +62,14 @@ const ItemComponent = ({ item, onPress, backgroundColor, textColor }) => {
       style={[styles.item, { backgroundColor }]}>
         <Image source={item.image} style={styles.image} />
         <View style={styles.textContainer}>
-          <Text style={[styles.title, { color: textColor }]}>{item.title}</Text>
+          <Text style={[styles.title, { color: textColor }]}>{item.truckType}</Text>
           <Text style={styles.details}>{item.imgDetails}</Text>
           <Text style={styles.details}>{item.capacity}</Text>
           <Text style={styles.details}>{item.weitage}</Text>
         </View>
+        {console.log(10,"dalaauto")}
          <Text style={[styles.price, { color: textColor }]}>
-          ${calculateTotalAmount()}
+         Rs:{calculateTotalPrice(10,"dalaauto")}
         </Text>
       </TouchableOpacity>
       <Modal
@@ -67,7 +101,7 @@ const ItemComponent = ({ item, onPress, backgroundColor, textColor }) => {
               <Text style={{ textAlign: 'center', fontSize: 18 }}>Total Amount</Text>
 
               <Text style={[styles.totalAmount]}>
-                ${calculateTotalAmount()}
+              Rs:{calculateTotalPrice(10,"dalaauto")}
               </Text>
               <Text>Total Estimated fare price including taxes</Text>
 
