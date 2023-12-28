@@ -32,7 +32,7 @@ const RouteMap = ({ origin, destination }) => {
         destination={destinationLoc}
         apikey={GOOGLE_MAPS_APIKEY}
         strokeWidth={5}
-        strokeColor="hotpink"
+        strokeColor="black"
       />
       <Marker
   coordinate={{

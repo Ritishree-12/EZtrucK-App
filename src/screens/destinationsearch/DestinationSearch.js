@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {View, TextInput, SafeAreaView,StyleSheet} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, SafeAreaView, StyleSheet } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useNavigation } from '@react-navigation/native';
 
-// import styles from './style';
-import PlaceRow from "./PlaceRow";
+import PlaceRow from './PlaceRow';
 
 const homePlace = {
   description: 'Home',
@@ -23,31 +22,55 @@ const DestinationSearch = (props) => {
 
   const checkNavigation = () => {
     if (originPlace && destinationPlace) {
-      // console.warn(data:'redirect to result')
+      const distance = calculateDistance(originPlace, destinationPlace);
+      console.log(`Distance: ${distance} km`);
+
       navigation.navigate('SearchResult', {
         originPlace,
         destinationPlace,
-      })
+        distance,
+      });
     }
-  }
+  };
 
   useEffect(() => {
     checkNavigation();
   }, [originPlace, destinationPlace]);
 
+  const calculateDistance = (origin, destination) => {
+    const lat1 = origin.details.geometry.location.lat;
+    const lon1 = origin.details.geometry.location.lng;
+
+    const lat2 = destination.details.geometry.location.lat;
+    const lon2 = destination.details.geometry.location.lng;
+
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) *
+        Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in kilometers
+
+    return distance.toFixed(2); // Round to two decimal places
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
-
         <GooglePlacesAutocomplete
           placeholder="Where from?"
           onPress={(data, details = null) => {
-            setOriginPlace({data, details});
+            setOriginPlace({ data, details });
           }}
           enablePoweredByContainer={false}
           suppressDefaultStyles
           currentLocation={true}
-          currentLocationLabel='Your Current Location'
+          currentLocationLabel="Your Current Location"
           styles={{
             textInput: styles.textInput,
             container: styles.autocompleteContainer,
@@ -67,7 +90,7 @@ const DestinationSearch = (props) => {
         <GooglePlacesAutocomplete
           placeholder="Where to?"
           onPress={(data, details = null) => {
-            setDestinationPlace({data, details});
+            setDestinationPlace({ data, details });
           }}
           enablePoweredByContainer={false}
           suppressDefaultStyles
@@ -95,83 +118,80 @@ const DestinationSearch = (props) => {
 
         {/* Square near Destination input */}
         <View style={styles.square} />
-
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      padding: 10,
-      height: '100%',
-    },
-    textInput: {
-      padding: 10,
-      backgroundColor: '#eee',
-      marginVertical: 5,
-      marginLeft: 20,
-      borderColor:'red',
-      borderRadius:40,
-      borderWidth: 1,
-      color:'black'
-    },
-  
-    separator: {
-      backgroundColor: 'grey',
-      height: 1,
-    },
-    listView: {
-      position: 'absolute',
-        top: 105,
-    },
-    autocompleteContainer: {
-      position: 'absolute',
-      top: 0,
-      left: 10,
-      right: 10,
-    },
-  
-    row: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginVertical: 10,
-    },
-    iconContainer: {
-      backgroundColor: '#a2a2a2',
-      padding: 5,
-      borderRadius: 50,
-      marginRight: 15,
-    },
-    locationText: {
-  
-    },
-  
-    circle: {
-      width: 20,
-      height: 20,
-      backgroundColor: 'red',
-      position: 'absolute',
-      top: 20,
-      left: 8,
-      borderRadius: 20,
-    },
-    line: {
-      width: 2,
-      height: 40,
-      backgroundColor: '#c4c4c4',
-      position: 'absolute',
-      top: 39,
-      left: 18,
-    },
-    square: {
-      width: 16,
-      height: 16,
-      backgroundColor: 'green',
-      position: 'absolute',
-      top: 80,
-      left: 8,
-    },
-  });
+  container: {
+    padding: 10,
+    height: '100%',
+  },
+  textInput: {
+    padding: 10,
+    backgroundColor: '#eee',
+    marginVertical: 5,
+    marginLeft: 20,
+    borderColor: 'red',
+    borderRadius: 40,
+    borderWidth: 1,
+    color: 'black',
+  },
+
+  separator: {
+    backgroundColor: 'grey',
+    height: 1,
+  },
+  listView: {
+    position: 'absolute',
+    top: 105,
+  },
+  autocompleteContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 10,
+    right: 10,
+  },
+
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  iconContainer: {
+    backgroundColor: '#a2a2a2',
+    padding: 5,
+    borderRadius: 50,
+    marginRight: 15,
+  },
+  locationText: {},
+
+  circle: {
+    width: 20,
+    height: 20,
+    backgroundColor: 'red',
+    position: 'absolute',
+    top: 20,
+    left: 8,
+    borderRadius: 20,
+  },
+  line: {
+    width: 2,
+    height: 40,
+    backgroundColor: '#c4c4c4',
+    position: 'absolute',
+    top: 39,
+    left: 18,
+  },
+  square: {
+    width: 16,
+    height: 16,
+    backgroundColor: 'green',
+    position: 'absolute',
+    top: 80,
+    left: 8,
+  },
+});
 
 export default DestinationSearch;
