@@ -63,3 +63,8 @@ const calculateTotalPrice = (distanceInKm, truckType) => {
     return finalPrice;
   }
   calculateTotalPrice(10,'dalaauto')
+
+  i want to use the distance and duration calculated in the DestinationSearch
+   component within the ItemComponent modal. To achieve this,
+    you need to pass the distance and duration states from DestinationSearch 
+    to the TruckTypes component and then down to the ItemComponent.

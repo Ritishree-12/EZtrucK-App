@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Pressable } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
@@ -100,9 +100,9 @@ const OtpScreen = ({ route }) => {
         ))}
       </View>
 
-      <Button mode="contained" style={styles.verifyButton} onPress={verifyOTP}>
+      <Pressable mode="contained" style={styles.verifyButton} onPress={verifyOTP}>
         <Text style={styles.verifyText}>Verify</Text>
-      </Button>
+      </Pressable>
     </View>
   );
 };

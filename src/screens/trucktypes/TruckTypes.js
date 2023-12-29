@@ -43,13 +43,9 @@ import ItemComponent from "../home/ItemComponent";
 
 // import typesData from '../../data/type';
 
-const TruckTypes = ({onSubmit}) => {
+const TruckTypes = ({onSubmit,distance, duration}) => {
   const [selectedId, setSelectedId] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-
  
-
     const DATA = [
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -93,6 +89,8 @@ const TruckTypes = ({onSubmit}) => {
         onPress={() => setSelectedId(isSelected ? null : item.id)}
         backgroundColor={backgroundColor}
         textColor={textColor}
+        distance={distance} 
+        duration={duration}
       />
     );
   };
@@ -106,8 +104,6 @@ const TruckTypes = ({onSubmit}) => {
         selectedId={selectedId}
         setSelectedId={setSelectedId}
       />
-      
-
       <Pressable onPress={onSubmit} style={{
        backgroundColor: "#EE272E",
        borderColor: "#EE272E",

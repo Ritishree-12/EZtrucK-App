@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, SafeAreaView, StyleSheet } from 'react-native';
+import { View, SafeAreaView, StyleSheet } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useNavigation } from '@react-navigation/native';
-
+import axios from 'axios'; // Import axios for making HTTP requests
 import PlaceRow from './PlaceRow';
-
 const homePlace = {
   description: 'Home',
   geometry: { location: { lat: 48.8152937, lng: 2.4597668 } },
@@ -13,52 +12,55 @@ const workPlace = {
   description: 'Work',
   geometry: { location: { lat: 48.8496818, lng: 2.2940881 } },
 };
-
-const DestinationSearch = (props) => {
+const DestinationSearch = () => {
   const [originPlace, setOriginPlace] = useState(null);
   const [destinationPlace, setDestinationPlace] = useState(null);
-
+  const [distance, setDistance] = useState(null);
+  const [duration, setDuration] = useState(null);
   const navigation = useNavigation();
 
-  const checkNavigation = () => {
+  const checkNavigation = async () => {
     if (originPlace && destinationPlace) {
-      const distance = calculateDistance(originPlace, destinationPlace);
-      console.log(`Distance: ${distance} km`);
-
-      navigation.navigate('SearchResult', {
-        originPlace,
-        destinationPlace,
-        distance,
-      });
+      try {
+        const { distance, duration } = await getDistanceAndTime(
+          originPlace.details.geometry.location,
+          destinationPlace.details.geometry.location
+        );
+        console.log(`Distance: ${distance} km, Duration: ${duration}`);
+        setDistance(distance);
+        setDuration(duration);
+        navigation.navigate('SearchResult', {
+          originPlace,
+          destinationPlace,
+          distance,
+          duration,
+        });
+      } catch (error) {
+        console.error('Error calculating distance and time:', error.message);
+      }
     }
   };
-
   useEffect(() => {
     checkNavigation();
   }, [originPlace, destinationPlace]);
 
-  const calculateDistance = (origin, destination) => {
-    const lat1 = origin.details.geometry.location.lat;
-    const lon1 = origin.details.geometry.location.lng;
-
-    const lat2 = destination.details.geometry.location.lat;
-    const lon2 = destination.details.geometry.location.lng;
-
-    const R = 6371; // Radius of the Earth in kilometers
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * (Math.PI / 180)) *
-        Math.cos(lat2 * (Math.PI / 180)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in kilometers
-
-    return distance.toFixed(2); // Round to two decimal places
+  const getDistanceAndTime = async (origin, destination) => {
+    const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin.lat},${origin.lng}
+    &destinations=${destination.lat},${destination.lng}&key=AIzaSyCqM7uF9c0ZMQjdssHqSMJJ3mBcmz5RNS0`;
+    try {
+      const response = await axios.get(apiUrl);
+      const data = response.data;
+      if (data.status === 'OK' && data.rows.length > 0 && data.rows[0].elements.length > 0) {
+        const distance = data.rows[0].elements[0].distance.text;
+        const duration = data.rows[0].elements[0].duration.text;
+        return { distance, duration };
+      } else {
+        throw new Error('Error fetching distance and time.');
+      }
+    } catch (error) {
+      throw new Error('Error fetching data:', error);
+    }
   };
-
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -86,7 +88,6 @@ const DestinationSearch = (props) => {
           renderDescription={(data) => data.description || data.vicinity}
           predefinedPlaces={[homePlace, workPlace]}
         />
-
         <GooglePlacesAutocomplete
           placeholder="Where to?"
           onPress={(data, details = null) => {
@@ -109,20 +110,17 @@ const DestinationSearch = (props) => {
           }}
           renderRow={(data) => <PlaceRow data={data} />}
         />
-
+        
         {/* Circle near Origin input */}
         <View style={styles.circle} />
-
         {/* Line between dots */}
         <View style={styles.line} />
-
         {/* Square near Destination input */}
         <View style={styles.square} />
       </View>
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     padding: 10,
@@ -138,7 +136,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     color: 'black',
   },
-
   separator: {
     backgroundColor: 'grey',
     height: 1,
@@ -153,20 +150,18 @@ const styles = StyleSheet.create({
     left: 10,
     right: 10,
   },
-
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 10,
   },
   iconContainer: {
-    backgroundColor: '#a2a2a2',
+    backgroundColor: '#A2A2A2',
     padding: 5,
     borderRadius: 50,
     marginRight: 15,
   },
   locationText: {},
-
   circle: {
     width: 20,
     height: 20,
@@ -179,7 +174,7 @@ const styles = StyleSheet.create({
   line: {
     width: 2,
     height: 40,
-    backgroundColor: '#c4c4c4',
+    backgroundColor: '#C4C4C4',
     position: 'absolute',
     top: 39,
     left: 18,
@@ -193,5 +188,4 @@ const styles = StyleSheet.create({
     left: 8,
   },
 });
-
 export default DestinationSearch;

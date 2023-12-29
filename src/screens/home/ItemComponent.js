@@ -7,16 +7,15 @@ import {
   StyleSheet,
   Image,
   View,
-  ScrollView,
+
   Modal,
+ 
 } from "react-native";
-const ItemComponent = ({ item, onPress, backgroundColor, textColor }) => {
+const ItemComponent = ({ item, onPress, backgroundColor, textColor,distance, duration }) => {
   const [modalVisible, setModalVisible] = useState(false);// Sample data for rates and charges
-  const baseFare = 10;
-  const ratePerKm = 0.5;
-  const ratePerMinute = 0.2;
-  const waitingCharges = 5;
+
   const calculateTotalPrice = (distanceInKm, truckType) => {
+    console.log(distanceInKm)
     let baseCostPerKm, baseCostPerKm2;
     switch (truckType) {
       case 'dalaauto':
@@ -43,6 +42,7 @@ const ItemComponent = ({ item, onPress, backgroundColor, textColor }) => {
         throw new Error('Invalid truck type');
     }
     const totalCost = distanceInKm <= 30 ? baseCostPerKm * distanceInKm : baseCostPerKm2 * distanceInKm;
+    console.log(totalCost)
     // Calculate the commission (15%)
     const commissionAmount = (totalCost * 15) / 100;
     const costAfterCommission = totalCost + commissionAmount;
@@ -53,7 +53,9 @@ const ItemComponent = ({ item, onPress, backgroundColor, textColor }) => {
     const tdsAmount = (costAfterGst * 2) / 100;
     const finalPrice = costAfterGst + tdsAmount;
     console.log(finalPrice)
-    return finalPrice;
+    return "₹" + (finalPrice.toFixed(2));
+    // return finalPrice;
+    
   }
   return (
     <View>
@@ -69,7 +71,7 @@ const ItemComponent = ({ item, onPress, backgroundColor, textColor }) => {
         </View>
         {console.log(10,"dalaauto")}
          <Text style={[styles.price, { color: textColor }]}>
-         Rs:{calculateTotalPrice(10,"dalaauto")}
+        {calculateTotalPrice(parseInt(distance), item.truckType)}
         </Text>
       </TouchableOpacity>
       <Modal
@@ -101,25 +103,22 @@ const ItemComponent = ({ item, onPress, backgroundColor, textColor }) => {
               <Text style={{ textAlign: 'center', fontSize: 18 }}>Total Amount</Text>
 
               <Text style={[styles.totalAmount]}>
-              Rs:{calculateTotalPrice(10,"dalaauto")}
+              {calculateTotalPrice(parseInt(distance), item.truckType)}
               </Text>
               <Text>Total Estimated fare price including taxes</Text>
 
             </View>
             <View style={[styles.farelist]}>
               <View>
-                <Text style={styles.detailLabel}>Base Fare:</Text>
-                <Text style={styles.detailLabel}>Rate per Km:</Text>
-                <Text style={styles.detailLabel}>Rate per Minute:</Text>
-                <Text style={styles.detailLabel}>Waiting Charges:</Text>
+                <Text style={styles.detailLabel}>Distance:</Text>
+                <Text style={styles.detailLabel}>Duration:</Text>
+                <Text style={styles.detailLabel}>Total Estimate:</Text>
               </View>
 
               <View style={{ flexDirection: "column", alignItems: "flex-end" }}>
-                <Text style={styles.detailValue}>${baseFare.toFixed(2)}</Text>
-                <Text style={styles.detailValue}>${ratePerKm.toFixed(2)}</Text>
-                <Text style={styles.detailValue}>${ratePerMinute.toFixed(2)}</Text>
-                <Text style={styles.detailValue}>${waitingCharges.toFixed(2)}</Text>
-
+                <Text style={styles.detailValue}>{distance}</Text>
+                <Text style={styles.detailValue}>{duration}</Text>
+                <Text style={styles.detailValue}>₹{''}</Text>
               </View>
             </View>
             <View

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert,Image } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert,Image, Pressable } from "react-native";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
@@ -60,7 +60,7 @@ const Login = () => {
           keyboardType="numeric"
           
         />
-        <Button
+        <Pressable
           onPress={() => {
             if (numberInput) {
               sendOtp();
@@ -72,7 +72,7 @@ const Login = () => {
           style={styles.loginButton}
         >
           <Text style={styles.buttonText}>Get OTP</Text>
-        </Button>
+        </Pressable>
       </View>  
       <View style={styles.orContainer}>
           <View style={styles.horizontalLine} />

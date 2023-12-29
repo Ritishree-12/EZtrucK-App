@@ -86,17 +86,18 @@ import { View, Dimensions, Alert } from 'react-native';
 import axios from 'axios';
 import RouteMap from "../../map/Routemap";
 import TruckTypes from '../trucktypes/TruckTypes';
-import { useRoute } from '@react-navigation/native';
+// import { useRoute } from '@react-navigation/native';
 
-const SearchResult = (props) => {
+const SearchResult = ({ route }) => {
   const typeState = useState(null);
   const [pickupLocation, setPickupLocation] = useState(null);
   const [dropLocation, setDropLocation] = useState(null);
 
-  const route = useRoute();
+  // const route = useRoute();
   
   console.log(route.params, 'details');
-  const { originPlace, destinationPlace } = route.params;
+  // const { originPlace, destinationPlace } = route.params;
+  const { originPlace, destinationPlace, distance, duration } = route.params;
 
   const onSubmit = async () => {
   // Ensure pickupLocation and dropLocation are available
@@ -141,7 +142,8 @@ const SearchResult = (props) => {
       <View style={{ height: 400 }}>
         <TruckTypes 
         typeState={typeState} 
-        // onSubmit={onSubmit}
+        distance={distance} 
+        duration={duration}
          />
       </View>
     </View>
