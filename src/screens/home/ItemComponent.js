@@ -100,7 +100,7 @@ const ItemComponent = ({ item, onPress, backgroundColor, textColor,distance, dur
             </Text>
             <View style={styles.dashedLine}></View>
             <View>
-              <Text style={{ textAlign: 'center', fontSize: 18 }}>Total Amount</Text>
+              <Text style={{ textAlign: 'center', fontSize: 18,color:'black'}}>Total Amount</Text>
 
               <Text style={[styles.totalAmount]}>
               {calculateTotalPrice(parseInt(distance), item.truckType)}
